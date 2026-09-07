@@ -1,0 +1,24 @@
+# RStudio
+.Rproj.user/
+
+# R session state
+.Rhistory
+.RData
+.Ruserdata
+
+# Build artefacts
+*.tar.gz
+*.Rcheck/
+inst/doc/
+
+# renv (library is restored from renv.lock, never committed)
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/sandbox/
+renv/staging/
+
+# macOS
+.DS_Store

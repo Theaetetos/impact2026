@@ -1,0 +1,11 @@
+^impact2026\.Rproj$
+^\.Rproj\.user$
+^\.Rprofile$
+^renv$
+^renv\.lock$
+^\.git$
+^\.gitignore$
+^\.github$
+^data-raw$
+^README\.Rmd$
+^LICENSE\.md$
