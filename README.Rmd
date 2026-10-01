@@ -1,0 +1,67 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r library}
+library(ggplot2)
+library(scales)
+```
+
+```{r data}
+mc <- readRDS(file = 'data-raw/output/monte_carlo.rds')
+head(mc)
+```
+
+```{r}
+truth <- mc[mc$method == 'Truth', c("seed", "cutoff", "estimate")]
+names(truth)[3] <- 'truth'
+pdat <- merge(mc[mc$method != 'Truth', ], truth)
+pdat$error <- pdat$estimate - pdat$truth
+
+p <- ggplot() +
+  geom_boxplot(
+    data = pdat,
+    mapping = aes(
+      x = factor(
+        method,
+        levels = c('Pre/post', 'ITS', 'CITS', 'DiD', 'P+G')
+      ),
+      y = error
+    ),
+    outliers = F
+  ) +
+  geom_hline(
+    yintercept = 0,
+    linetype = 'dashed',
+    color = 'firebrick'
+  ) +
+  scale_y_continuous(
+    transform = pseudo_log_trans(
+      sigma = 1,
+      base = 10
+    ),
+    breaks = c(-100, -10, 0, 10, 100)
+  ) +
+  facet_grid(
+    cutoff ~ .,
+    labeller = as_labeller(c(`2` = '3', `11` = '12', `35` = '36'))
+  ) +
+  labs(
+    title = 'Estimation Error',
+    subtitle = '1000 Resamples',
+    x = 'Method',
+    y = 'Estimate - Truth (Pseudo-log scale)'
+  )
+p
+```
+
+```{r}
+ggsave(
+  'data-raw/output/boxplot.png',
+  plot = p,
+  width = 1600,
+  height = 900,
+  units = 'px'
+)
+```

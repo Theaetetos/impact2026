@@ -22,3 +22,5 @@ renv/staging/
 
 # macOS
 .DS_Store
+
+data-raw/output/monte_carlo.rds
